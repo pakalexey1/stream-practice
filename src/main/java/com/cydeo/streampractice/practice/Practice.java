@@ -236,13 +236,13 @@ public class Practice {
     // Display all the employees whose salary is between 6000 and 7000
     public static List<Employee> getAllEmployeesSalaryBetween() {
         //TODO Implement the method
-//        return getAllEmployees().stream()
-//                .filter(employee -> employee.getSalary()>6000)
-//                .filter(employee -> employee.getSalary()<7000)
-//                .collect(Collectors.toList());
+//        return getAllEmployees().stream()  //start with 100
+//                .filter(employee -> employee.getSalary()>6000) // ends up 75 employees are above 6000
+//                .filter(employee -> employee.getSalary()<7000) // then of 75, 25 employees below 7000
+//                .collect(Collectors.toList());                 // a total of 75+75 employees were checked
 
         return getAllEmployees().stream()
-                .filter(employee -> employee.getSalary() > 6000 && employee.getSalary() < 7000)
+                .filter(employee -> employee.getSalary() > 6000 && employee.getSalary() < 7000) //performance wise this is better as it checks only 100 employees at once
                 .collect(Collectors.toList());
 
     }
@@ -250,7 +250,11 @@ public class Practice {
     // Display the salary of the employee Grant Douglas (lastName: Grant, firstName: Douglas)
     public static Long getGrantDouglasSalary() throws Exception {
         //TODO Implement the method
-        return 1L;
+        return getAllEmployees().stream()
+                .filter(employee -> employee.getFirstName().equals("Douglas"))
+                .filter(employee -> employee.getLastName().equals("Grant"))
+                .findFirst().orElseThrow(()->new Exception("No employee found!")    )
+                .getSalary();
     }
 
     // Display the maximum salary an employee gets
