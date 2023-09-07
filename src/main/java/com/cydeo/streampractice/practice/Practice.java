@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Component
 public class Practice {
@@ -253,13 +254,54 @@ public class Practice {
         return getAllEmployees().stream()
                 .filter(employee -> employee.getFirstName().equals("Douglas"))
                 .filter(employee -> employee.getLastName().equals("Grant"))
-                .findFirst().orElseThrow(()->new Exception("No employee found!")    )
+                .findFirst().orElseThrow(() -> new Exception("No employee found!"))
                 .getSalary();
     }
 
     // Display the maximum salary an employee gets
     public static Long getMaxSalary() throws Exception {
-        return 1L;
+//        return getAllEmployees().stream()
+//                .sorted(Comparator.comparing(Employee::getSalary).reversed())
+//                .findFirst().get().getSalary();
+
+//        return getAllEmployees().stream()
+//                .max(Comparator.comparing(employee -> employee.getSalary()))//same as Employee::getSalary
+//                .get().getSalary();
+
+        //Less preferrable solution but demonstrates how to access a List element
+//        return getAllEmployees().stream()
+//                .sorted(Comparator.comparing(Employee::getSalary).reversed())
+//                .limit(1).collect(Collectors.toList()).get(0).getSalary();
+
+//        return getAllEmployees().stream()
+//                .map(employee -> employee.getSalary())
+//                .reduce((salary1, salary2) -> salary1 >= salary2 ? salary1 : salary2) //(compares first salary, with 2nd and reassigned the largest to salary1 then compares with the next value
+//                .get();
+
+//        return getAllEmployees().stream()
+//                .map(Employee::getSalary)
+//                .reduce(Long::max)
+//                .get();
+
+//        return getAllEmployees().stream()
+//                .map(employee -> employee.getSalary())
+//                .collect(Collectors.maxBy(Comparator.comparing(Long::longValue)))//longValue method returns a value
+//                .get();
+
+//        return getAllEmployees().stream()
+//                .collect(Collectors.maxBy(Comparator.comparing(Employee::getSalary)))
+//                .get().getSalary();
+
+//        return getAllEmployees().stream()
+//                .map(Employee::getSalary)
+//                .collect(Collectors.reducing(Long::max))//returns Optional so get() method is needed.
+//                .get();
+
+
+        return getAllEmployees().stream()
+                .mapToLong(Employee::getSalary)
+                .max().getAsLong();
+
     }
 
     // Display the employee(s) who gets the maximum salary
