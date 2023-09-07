@@ -417,13 +417,27 @@ public class Practice {
     // Display the total number of the departments
     public static Long getTotalDepartmentsNumber() {
         //TODO Implement the method
-        return 1L;
+//        return getAllDepartments().stream().count();
+        return (long) getAllDepartments().size();
     }
 
     // Display the employee whose first name is 'Alyssa' and manager's first name is 'Eleni' and department name is 'Sales'
     public static Employee getEmployeeWhoseFirstNameIsAlyssaAndManagersFirstNameIsEleniAndDepartmentNameIsSales() throws Exception {
         //TODO Implement the method
-        return new Employee();
+//        return getAllEmployees().stream()
+//                .filter(employee -> employee.getFirstName().equals("Alyssa"))
+//                .filter(employee -> employee.getManager().getFirstName().equals("Eleni"))
+//                .filter(employee -> employee.getDepartment().getDepartmentName().equals("Sales"))
+//                .findFirst().get();
+
+        //more efficient, as it filters out employees in one step vs above doing it over 3 steps.
+        return getAllEmployees().stream()
+                .filter(employee -> employee.getFirstName().equals("Alyssa")
+                && employee.getManager().getFirstName().equals("Eleni")
+                && employee.getDepartment().getDepartmentName().equals("Sales"))
+                .findFirst().orElseThrow(() -> new Exception("No employee found!")); //orElseThrow() requires throws Exception in method Signature
+
+
     }
 
     // Display all the job histories in ascending order by start date
